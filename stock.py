@@ -26,6 +26,7 @@ def get_name(symbol1):
     result = requests.get(url).json()
     for x in result['ResultSet']['Result']:
         if x['symbol'] == symbol:
+
             return x['name']
 
 
@@ -112,24 +113,28 @@ def stock_graph(stock_price,date,stock_volume,company):
 # -----------------------------------------------------------
 #print Welcome when user first open the program!!
 # -----------------------------------------------------------
-init(strip=not sys.stdout.isatty()) # strip colors if stdout is redirected
-cprint(figlet_format('Welcome', font='starwars'), attrs=['bold'])
+def main():
+    init(strip=not sys.stdout.isatty()) # strip colors if stdout is redirected
+    cprint(figlet_format('Welcome', font='starwars'), attrs=['bold'])
+    data = input("Enter Stock Code: ")
+    while data != "exit":
+        while True:
+            recommendation = input("Do you want to see latest 3 recommendations (Y/N): ")
+            if recommendation == "Y":
+                rec = True
+                break
+            elif recommendation == "N":
+                rec = False
+                break
+            else:
+                print("Invalid command! Please try to Enter again!")
+        stock_price, date, stock_volume = stock_info(data)
+        if stock_price != -1 and date != -1 and stock_volume != -1:
+            recommendations(data, rec) 
+            company = get_name(data)
+            stock_graph(stock_price,date,stock_volume,company)
+        data = input("Enter Stock Code or type exit to quit the program: ") 
 
-data = input("Enter Stock Code: ")
-while data != "exit":
-    while True:
-        recommendation = input("Do you want to see latest 3 recommendations (Y/N): ")
-        if recommendation == "Y":
-            rec = True
-            break
-        elif recommendation == "N":
-            rec = False
-            break
-        else:
-            print("Invalid command! Please try to Enter again!")
-    stock_price, date, stock_volume = stock_info(data)
-    if stock_price != -1 and date != -1 and stock_volume != -1:
-        recommendations(data, rec) 
-        company = get_name(data)
-        stock_graph(stock_price,date,stock_volume,company)
-    data = input("Enter Stock Code or type exit to quit the program: ") 
+
+if __name__ == '__main__':
+    main()
