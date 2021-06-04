@@ -15,4 +15,7 @@ Navigate to stock folder then run
 ```bash
 python stock.py
 ```
+# Image
 
+![Terminal](/Image/Terminal.png)
+![Graph](/Image/Graph.png)
